@@ -4,11 +4,11 @@ const quoteStyle = {
   color: 'black',
 };
 
-function Quotes(props) {
+function Quotes({quote, author}) {
   return (
     <div>
-      <p style={quoteStyle}>{props.quote}</p>
-      <p style={quoteStyle}>{props.author}</p>
+      <p style={quoteStyle}>{quote}</p>
+      <p style={quoteStyle}>{author}</p>
     </div>
   );
 }

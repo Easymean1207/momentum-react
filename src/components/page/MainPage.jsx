@@ -5,6 +5,7 @@ import Background from '../UI/Background';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import MissionList from '../UI/MissionList';
+import Weather from '../UI/Weather';
 
 const quotes = [
   {
@@ -44,6 +45,10 @@ const quotes = [
       '슬픔이 그대의 삶으로 밀려와 마음을 흔돌고 소중한 것을 쓸어가 버릴 때면 그대 또한 가슴에 대고 말하라, "이 또한 지나가리라"',
     author: '랜터 윌슨 스미스',
   },
+  {
+    quote: '오랫동안 꿈을 그리는 사람은 마침내 그 꿈을 닮아 간다',
+    author: '앙드레 말로',
+  },
 ];
 
 function MainPage() {
@@ -52,11 +57,12 @@ function MainPage() {
   const [displayName, setDisplayName] = useState('');
   const [currentMission, setCurrentMission] = useState('');
   const [missions, setMissions] = useState([]);
+  const [apiKey, setApiKey] = useState('');
 
   // 이름 입력 관리 함수
   const handleNameChange = (event) => {
     setName(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   // 인사말 관리 함수
@@ -64,15 +70,17 @@ function MainPage() {
     if (!name?.trim()) {
       alert('이름을 입력해주세요.');
       setDisplayName();
+      localStorage.removeItem('name');
     } else {
       setDisplayName(name);
+      localStorage.setItem('name', JSON.stringify(name));
     }
   };
 
   // 미션 입력 관리 함수
   const handleMissionChange = (event) => {
     setCurrentMission(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   // 미션 추가 함수
@@ -82,12 +90,24 @@ function MainPage() {
       return;
     }
     setMissions((prevMissions) => [...prevMissions, currentMission]);
+    localStorage.setItem('missions', JSON.stringify([...missions, currentMission]));
     setCurrentMission('');
   };
 
-  const deleteMission = (deleteIndex) =>{
+  const deleteMission = (deleteIndex) => {
     setMissions(missions.filter((_, idx) => idx !== deleteIndex));
-  }
+    const updatedMissions = missions.filter((_, idx) => idx !== deleteIndex);
+    localStorage.setItem('missions', JSON.stringify(updatedMissions));
+  };
+
+  // API 키 입력 관리 함수
+  const handleApiKeyChange = (event) => {
+    setApiKey(event.target.value);
+  };
+
+  const saveAPiKey = () => {
+    localStorage.setItem('apiKey', apiKey);
+  };
 
   // 5초마다 명언 자동 변경
   useEffect(() => {
@@ -115,7 +135,8 @@ function MainPage() {
           handleInputChange={handleMissionChange}
         />
         <Button title="add on" onClick={addMission} />
-        <MissionList contents={missions} onDeleteMission = {deleteMission}/>
+        <MissionList contents={missions} onDeleteMission={deleteMission} />
+        <Weather apiKey={apiKey} handleAPIKeyChange={handleApiKeyChange} saveAPIKey={saveAPiKey} />
       </Background>
     </div>
   );

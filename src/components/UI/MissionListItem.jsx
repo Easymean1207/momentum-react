@@ -5,7 +5,7 @@ function MissionListItem({ content, onDelete }) {
   return (
     <div>
       {content}
-      <Button title="🗑️" onClick={onDelete} />
+      <Button title="❌" onClick={onDelete} />
     </div>
   );
 }
