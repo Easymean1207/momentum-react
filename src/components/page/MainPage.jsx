@@ -49,6 +49,10 @@ const quotes = [
     quote: '오랫동안 꿈을 그리는 사람은 마침내 그 꿈을 닮아 간다',
     author: '앙드레 말로',
   },
+  {
+    quote: '내 비장의 무기는 아직 내 손안에 있다. 그것은 바로 희망이다.',
+    author: '나폴레옹 보나파르트',
+  },
 ];
 
 function MainPage() {
@@ -124,7 +128,9 @@ function MainPage() {
       <Background>
         <Clock />
         <Quotes quote={quote.quote} author={quote.author} />
-        {displayName && <p style={{ color: 'black', fontWeight: 'bolder', fontSize: '2rem' }}>Hello, {displayName}!</p>}
+        {displayName && (
+          <p style={{ color: 'black', fontWeight: 'bolder', fontSize: '1.25rem' }}>Hello, {displayName}!</p>
+        )}
         <Input type="text" placeholder="Who are you?" value={name} handleInputChange={handleNameChange} />
         <Button onClick={handleGreetingChange} />
         <br />
